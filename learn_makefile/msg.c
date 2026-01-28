@@ -1,0 +1,1 @@
+const char msg[]="Makefile msg.c";

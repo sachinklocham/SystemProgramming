@@ -1,0 +1,28 @@
+ 
+ xyz:
+	ls
+	touch newfile.txt
+	echo "Created newfile.txt from makefile!!!" > newfile.txt
+	ls
+	cat newfile.txt
+
+abc:
+	echo "This is target abc"
+
+
+#target: dependencies
+#	receipes
+#make target  will execute if dependencies have changed, file timestamps will be checked
+# if dependencies timestamp is more newer then target timestamp, then target will be executed
+# if target does not exist, it will be executed
+
+'''
+file: abc.c
+    touch abc.c
+
+run: file
+    ./file
+make run will check if dependency file exists, if not it will execute the receipe to create it and then run ./file
+'''
+
+=> make -n run    will print all intermediate commands which will help to run 'run ' target without actually executing them. - just dry run .
