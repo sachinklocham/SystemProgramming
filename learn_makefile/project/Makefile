@@ -1,34 +1,123 @@
-SRC = $(shell find src -iname "*.c")
-OBJ = $(patsubst %.c, %.o, $(SRC))
+# ==============================
+# Compiler
+# ==============================
+CC := gcc
 
-#INCLUDE_DIRS = -Iinclude/magic
+# ==============================
+# Build type (debug / release)
+# Default: debug
+# Usage:
+#   make
+#   make BUILD=release
+# ==============================
+BUILD ?= debug
 
-# can we find all header files automatically like src files?
-# linux command to find path of all include directories and convert them like standard include path
-#find -iname "*.h" -exec dirname {} \; | sed 's/^./-I./g' | xargs
-INCLUDE_DIRS = $(shell find -iname "*.h" -exec dirname {} \; | sort -u | sed 's/^./-I./g' | xargs)
+# ==============================
+# Directory layout
+# ==============================
+SRC_DIR := src
+OBJ_DIR := OBJS
 
-#CFLAGS = -g -Wall $(INCLUDE_DIRS)
+# ==============================
+# Find all source files recursively
+# ==============================
+SRC := $(shell find $(SRC_DIR) -iname "*.c")
 
+# ==============================
+# Map:
+#   src/foo/bar.c  --> OBJS/foo/bar.o
+# ==============================
+OBJ := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 
+# ==============================
+# Auto-detect include directories
+# Finds all folders containing .h files
+# Converts:
+#   ./include  --> -I./include
+# ==============================
+INCLUDE_DIRS := $(shell find -iname "*.h" -exec dirname {} \; \
+                 | sort -u | sed 's/^./-I./g' | xargs)
 
+# ==============================
+# Compiler flags
+# -Wall  : enable warnings
+# -MMD   : generate dependency (.d) files
+# -MP    : add phony targets for headers
+# ==============================
+CFLAGS := -Wall -MMD -MP $(INCLUDE_DIRS)
+
+# ==============================
+# Build-type-specific flags
+# ==============================
+ifeq ($(BUILD),debug)
+	CFLAGS += -O0 -g
+else
+	CFLAGS += -O2 -DNDEBUG
+endif
+
+# ==============================
+# Print useful debug info
+# ==============================
+ifeq ($(BUILD),debug)
+$(info ================= DEBUG BUILD =================)
 $(info SRC: $(SRC))
 $(info OBJ: $(OBJ))
 $(info INCLUDE_DIRS: $(INCLUDE_DIRS))
+$(info BUILD: $(BUILD))
+$(info ===============================================)
+endif
 
-all: main #make all will make main binary won't run it
+# ==============================
+# Default target
+# ==============================
+all: main
 
+# ==============================
+# Run the application
+# ==============================
 run: all
-	#./main  # uncomment and run then ./main also printed on console , to avoid it use @
 	@./main
 
+# ==============================
+# Link step
+# ==============================
 main: $(OBJ)
-	gcc $^ -o $@ 
+	$(CC) $^ -o $@
 
-%.o: %.c
-	#gcc -c $^ # doesn't specify that object files from which location 
-	gcc $(INCLUDE_DIRS) -c $^ -o $@ # specify output object file location at same target location
+# ==============================
+# Compile rule
+# Creates required subdirectories automatically
+# ==============================
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
+# ==============================
+# Include auto-generated dependency files
+# Safe even if .d files do not exist
+# ==============================
+-include $(OBJ:.o=.d)
+
+# ==============================
+# Cleanup
+# ==============================
 clean:
-	#rm -f main $(OBJ)	
-	@rm -f main $(OBJ)	
+	@rm -rf $(OBJ_DIR) main
+
+# ==============================
+# Help target
+# ==============================
+help:
+	@echo ""
+	@echo "Usage:"
+	@echo "  make                  Build the project (debug mode)"
+	@echo "  make BUILD=release    Build optimized release version"
+	@echo "  make run              Build and run the executable"
+	@echo "  make clean            Remove all build artifacts"
+	@echo "  make help             Show this help message"
+	@echo ""
+
+# ==============================
+# Phony targets
+# ==============================
+.PHONY: all clean run help
