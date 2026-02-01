@@ -23,5 +23,5 @@ $ make will execute first target by default
 else specify target like 
 $make target2
 
-
+Makefile or makefile both valid for default name
 

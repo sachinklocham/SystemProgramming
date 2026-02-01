@@ -1,3 +1,4 @@
+# use  this makefile  as => make -f Makefile1
 SRC = $(shell find src -iname "*.c")
 OBJ = $(patsubst %.c, %.o, $(SRC))
 

@@ -1,7 +1,11 @@
+# include other makefiles if needed
+include other_makefile.mk	
+
+
 # ==============================
-# Compiler
+# Compiler from other makefile.mk
 # ==============================
-CC := gcc
+#CC := gcc
 
 # ==============================
 # Build type (debug / release)
@@ -17,6 +21,14 @@ BUILD ?= debug
 # ==============================
 SRC_DIR := src
 OBJ_DIR := OBJS
+
+#===============================
+#macros for repeated use 
+#===============================
+define some_macro
+	@echo "generating " $@ " from " $<
+endef
+
 
 # ==============================
 # Find all source files recursively
@@ -83,6 +95,7 @@ run: all
 # ==============================
 main: $(OBJ)
 	$(CC) $^ -o $@
+	$(some_macro)
 
 # ==============================
 # Compile rule
@@ -91,6 +104,7 @@ main: $(OBJ)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+	$(some_macro)
 
 # ==============================
 # Include auto-generated dependency files
