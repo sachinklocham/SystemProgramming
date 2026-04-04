@@ -81,6 +81,13 @@ arm-none-eabi-objdump --help
 -f
 -a
 
+//////////////////////////////////////
+main1.c  main1.ld Makefile
+    check initially .map and .txt file with this 
+ 	$(LD) -s -Bsymbolic -gc-sections -T$(LD_SCRIPT) -static -Map=$(LD_MAP) -o $@ $(OBJ)
+    then with this
+	$(LD) -T$(LD_SCRIPT) -Map=$(LD_MAP) -o $@ $(OBJ)
+
 
 
 
