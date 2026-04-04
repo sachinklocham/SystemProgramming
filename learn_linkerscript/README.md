@@ -89,6 +89,58 @@ main1.c  main1.ld Makefile
 	$(LD) -T$(LD_SCRIPT) -Map=$(LD_MAP) -o $@ $(OBJ)
 
 
+in project folder main.c global.c
+want to discard global.o sections as they are merged by default even we didn't mention that in .ld
+
+SECTIONS {
+    .text : {
+        main.o (.text)
+        main.o (.data)
+        main.o (.bss)
+    } > SOME_NAME
+}
+
+so we will use /DISCARD/ section for this purpose : 
+
+it will discaed all the things sections which have not been included in above sections of different .o files check project/ main.ld
 
 
+SECTIONS {
+    .text : {
+        main.o (.text)
+        global.o (.text)
+    } > SOME_NAME
+    .data : {
+        main.o (.data)
+        global.o (.data)
+    } > SOME_NAME
+    .bss : {
+        main.o (.bss)
+        global.o (.bss)
+    } > SOME_NAME
 
+
+    /DISCARD/ : {
+            global.o (*)
+    }
+}
+
+//// Wildcards  instead file name mention * 
+
+SECTIONS {
+    .text : {
+        * (.text)
+    } > SOME_NAME
+    .data : {
+        * (.data)
+    } > SOME_NAME
+    .bss : {
+        * (.bss)
+
+    } > SOME_NAME
+
+
+    /DISCARD/ : {
+            * (*)
+    }
+}
