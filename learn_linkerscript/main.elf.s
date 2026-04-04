@@ -4,36 +4,27 @@ main.elf:     file format elf32-littlearm
 
 Disassembly of section .text:
 
-00008000 <foo>:
-    8000:	e92d4800 	push	{fp, lr}
-    8004:	e28db004 	add	fp, sp, #4
-    8008:	e24dd008 	sub	sp, sp, #8
-    800c:	eb00000a 	bl	803c <bar>
-    8010:	e1a02000 	mov	r2, r0
-    8014:	e59f301c 	ldr	r3, [pc, #28]	@ 8038 <foo+0x38>
-    8018:	e5933000 	ldr	r3, [r3]
-    801c:	e0823003 	add	r3, r2, r3
-    8020:	e50b3008 	str	r3, [fp, #-8]
-    8024:	e1a00000 	nop			@ (mov r0, r0)
-    8028:	e1a00003 	mov	r0, r3
-    802c:	e24bd004 	sub	sp, fp, #4
-    8030:	e8bd4800 	pop	{fp, lr}
-    8034:	e12fff1e 	bx	lr
-    8038:	00009058 	andeq	r9, r0, r8, asr r0
-
-0000803c <bar>:
-    803c:	e52db004 	push	{fp}		@ (str fp, [sp, #-4]!)
-    8040:	e28db000 	add	fp, sp, #0
-    8044:	e3a03014 	mov	r3, #20
-    8048:	e1a00003 	mov	r0, r3
-    804c:	e28bd000 	add	sp, fp, #0
-    8050:	e49db004 	pop	{fp}		@ (ldr fp, [sp], #4)
-    8054:	e12fff1e 	bx	lr
+00008000 <fun>:
+    8000:	e52db004 	push	{fp}		@ (str fp, [sp, #-4]!)
+    8004:	e28db000 	add	fp, sp, #0
+    8008:	e24dd00c 	sub	sp, sp, #12
+    800c:	e3a03004 	mov	r3, #4
+    8010:	e50b3008 	str	r3, [fp, #-8]
+    8014:	e1a00000 	nop			@ (mov r0, r0)
+    8018:	e28bd000 	add	sp, fp, #0
+    801c:	e49db004 	pop	{fp}		@ (ldr fp, [sp], #4)
+    8020:	e12fff1e 	bx	lr
 
 Disassembly of section .data:
 
-00009058 <a>:
-    9058:	00000064 	andeq	r0, r0, r4, rrx
+00009024 <initialised_global>:
+    9024:	00000002 	andeq	r0, r0, r2
+
+00009028 <static_initialised_global>:
+    9028:	00000005 	andeq	r0, r0, r5
+
+0000902c <static_initialised_local_variable.1>:
+    902c:	00000005 	andeq	r0, r0, r5
 
 Disassembly of section .comment:
 
