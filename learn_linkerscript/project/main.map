@@ -1,6 +1,9 @@
 
 Discarded input sections
 
+ .comment       0x00000000       0x27 main.o
+ .ARM.attributes
+                0x00000000       0x2a main.o
  .comment       0x00000000       0x27 global.o
  .ARM.attributes
                 0x00000000       0x2a global.o
@@ -15,62 +18,29 @@ Linker script and memory map
 
 
 .text           0x0000a000       0x60
- main.o(.text)
+ *(.text)
  .text          0x0000a000       0x44 main.o
                 0x0000a000                foo
- global.o(.text)
  .text          0x0000a044       0x1c global.o
                 0x0000a044                bar
 
-.glue_7         0x0000a060        0x0
- .glue_7        0x0000a060        0x0 linker stubs
-
-.glue_7t        0x0000a060        0x0
- .glue_7t       0x0000a060        0x0 linker stubs
-
-.vfp11_veneer   0x0000a060        0x0
- .vfp11_veneer  0x0000a060        0x0 linker stubs
-
-.v4_bx          0x0000a060        0x0
- .v4_bx         0x0000a060        0x0 linker stubs
-
-.iplt           0x0000a060        0x0
- .iplt          0x0000a060        0x0 main.o
-
-.rel.dyn        0x0000a060        0x0
- .rel.iplt      0x0000a060        0x0 main.o
-
 .data           0x0000a060        0x8
- main.o(.data)
+ *(.data)
  .data          0x0000a060        0x4 main.o
                 0x0000a060                init_global
- global.o(.data)
  .data          0x0000a064        0x4 global.o
                 0x0000a064                b
 
-.igot.plt       0x0000a068        0x0
- .igot.plt      0x0000a068        0x0 main.o
-
 .bss            0x0000a068        0x8
- main.o(.bss)
+ *(.bss)
  .bss           0x0000a068        0x4 main.o
                 0x0000a068                uninit_global
- global.o(.bss)
  .bss           0x0000a06c        0x4 global.o
                 0x0000a06c                a
 
 /DISCARD/
- global.o(*)
+ *(*)
 LOAD main.o
 LOAD global.o
 OUTPUT(main.elf elf32-littlearm)
 LOAD linker stubs
-
-.comment        0x00000000       0x26
- .comment       0x00000000       0x26 main.o
-                                 0x27 (size before relaxing)
-
-.ARM.attributes
-                0x00000000       0x2a
- .ARM.attributes
-                0x00000000       0x2a main.o

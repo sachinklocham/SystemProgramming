@@ -10,20 +10,18 @@ SECTIONS {
         main.o (.bss)
     } > SOME_NAME */
     .text : {
-        main.o (.text)
-        global.o (.text)
+        * (.text)
     } > SOME_NAME
     .data : {
-        main.o (.data)
-        global.o (.data)
+        * (.data)
     } > SOME_NAME
     .bss : {
-        main.o (.bss)
-        global.o (.bss)
+        * (.bss)
+
     } > SOME_NAME
 
 
     /DISCARD/ : {
-            global.o (*)
+            * (*)
     }
 }
