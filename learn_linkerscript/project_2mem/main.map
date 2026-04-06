@@ -11,7 +11,8 @@ Discarded input sections
 Memory Configuration
 
 Name             Origin             Length             Attributes
-SOME_NAME        0x0000a000         0x00001000
+ROM              0x0000a000         0x00001000
+RAM              0x0000c000         0x00001000
 *default*        0x00000000         0xffffffff
 
 Linker script and memory map
@@ -24,24 +25,24 @@ Linker script and memory map
  .text          0x0000a044       0x1c global.o
                 0x0000a044                bar
 
-.data           0x0000a060        0x8
- *(.data)
- .data          0x0000a060        0x4 main.o
-                0x0000a060                init_global
- .data          0x0000a064        0x4 global.o
-                0x0000a064                b
-
-.rodata         0x0000a068        0x4
+.rodata         0x0000a060        0x4
  *(.rodata)
- .rodata        0x0000a068        0x4 global.o
-                0x0000a068                c
+ .rodata        0x0000a060        0x4 global.o
+                0x0000a060                c
 
-.bss            0x0000a06c        0x8
+.data           0x0000c000        0x8 load address 0x0000a064
+ *(.data)
+ .data          0x0000c000        0x4 main.o
+                0x0000c000                init_global
+ .data          0x0000c004        0x4 global.o
+                0x0000c004                b
+
+.bss            0x0000c008        0x8
  *(.bss)
- .bss           0x0000a06c        0x4 main.o
-                0x0000a06c                uninit_global
- .bss           0x0000a070        0x4 global.o
-                0x0000a070                a
+ .bss           0x0000c008        0x4 main.o
+                0x0000c008                uninit_global
+ .bss           0x0000c00c        0x4 global.o
+                0x0000c00c                a
 
 /DISCARD/
  *(*)
@@ -49,3 +50,23 @@ LOAD main.o
 LOAD global.o
 OUTPUT(main.elf elf32-littlearm)
 LOAD linker stubs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

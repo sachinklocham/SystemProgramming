@@ -144,3 +144,164 @@ SECTIONS {
             * (*)
     }
 }
+
+
+if we define const in code global variable then that will go to .rodata section , so we need to define .rodata section in our linker script.
+otherwise by default that will be discarded.
+
+Discarded input sections
+
+ .comment       0x00000000       0x27 main.o
+ .ARM.attributes
+                0x00000000       0x2a main.o
+ .rodata        0x00000000        0x4 global.o
+ .comment       0x00000000       0x27 global.o
+ .ARM.attributes
+                0x00000000       0x2a global.o
+
+
+in .map file
+
+2 memory  solution ... distribute SECTIONS
+ROM
+.text
+.rodata
+
+RAM
+.data
+.bss
+
+2 memory bank
+
+RAM will be cleared when we swich off mcu all values of global vars will be gone , who will restore them ..... ?????
+like int init_global = 10; from main.c
+
+solution:- .data section value need to be retained
+means can we backup .data section in ROM and loads back to RAM after power cycle or normal boot ???
+because code will access data from RAM address 
+
+VMA(virtual memory address) & LMA(Load memory address) concepts :----------- 
+
+solution: LMA should be of ROM and VMA should be of RAM for .data section
+
+    .data : {
+        * (.data)
+    } > RAM AT > ROM   =>  specifies VMA-RAM AT LMA-ROM (Without AT both type of address in RAM/ROM)
+
+now ---
+
+Linker script and memory map
+                VMA(column)                 LMA(column)
+
+.text           0x0000a000       0x60
+ *(.text)
+ .text          0x0000a000       0x44 main.o
+                0x0000a000                foo
+ .text          0x0000a044       0x1c global.o
+                0x0000a044                bar
+
+.rodata         0x0000a060        0x4
+ *(.rodata)
+ .rodata        0x0000a060        0x4 global.o
+                0x0000a060                c
+
+.data           0x0000c000        0x8 load address 0x0000a064    <<<<======= 
+ *(.data)
+ .data          0x0000c000        0x4 main.o
+                0x0000c000                init_global
+ .data          0x0000c004        0x4 global.o
+                0x0000c004                b
+
+.bss            0x0000c008        0x8 load address 0x0000a06c
+ *(.bss)
+ .bss           0x0000c008        0x4 main.o
+                0x0000c008                uninit_global
+ .bss           0x0000c00c        0x4 global.o
+                0x0000c00c                a
+
+
+we want only .data section like this not .bss section
+so change in .ld file  =>>> RAM AT > RAM
+
+
+
+////''''''''''''''''''''''''''''''''''''''''''''
+
+copying .data section from ROM to RAM 
+
+using assambly or c code:
+from where to copy and where to paste how much to copy.
+src location , dest location , size.
+
+ current location counter(.) dot is current location =>  VMA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

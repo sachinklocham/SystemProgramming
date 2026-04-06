@@ -15,6 +15,9 @@ SECTIONS {
     .data : {
         * (.data)
     } > SOME_NAME
+    .rodata : {
+        * (.rodata)
+    } > SOME_NAME
     .bss : {
         * (.bss)
 
