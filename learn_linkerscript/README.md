@@ -233,53 +233,117 @@ using assambly or c code:
 from where to copy and where to paste how much to copy.
 src location , dest location , size.
 
- current location counter(.) dot is current location =>  VMA
+ current location counter(.) dot is current location =>  VMA(RAM)
+
+_dst_start_data_ , _dst_end_data_ . (doesn't occupy space in memory)
+substraction can give size.
+
+Address of data section in ROM ????
+where .rodata ends from there .data section starts. create symbols there.
+_src_start_data_
+
+// ROM to RAM copy .data section ....
+extern char _src_start_data_, _dst_start_data_, _dst_end_data_;
+void copy_data(){
+    char *src = &_src_start_data_;
+    char *dst = &_dst_start_data_;
+    while(dst < &_dst_end_data_){
+        *dst++ = *src++;
+    }
+}
+
+immediate after boot start code 
+
+set .bss section to zero 
+
+=>place copy function near .text section begginning
+
+styyle for function to be defined in some section and use that section in .ld file 
+
+
+.text : {
+        * (.sachin)
+        * (.text)
+    } > ROM
+
+or make seprate section.
+
+// variables or function both can be placed in our desired section.
+
+custom section for variables and functions
+
+========>>>>>>>>>>> linker command language::-
+inside linker script 
+1. input files
+2. file formats
+3. output files.
+4. placement of common blocks
+5. address of sections
+
+
+if not {object | archive | linker script} then 
+    print "error"
+
+
+linkerscript is collection of statements
+set a particular option
+=>some are use to 
+1. select,
+2.group input files,
+3.name the output file.
+
+=>two statements have funbdamental and pervasive impact on the linking process
+1.SECTIONS
+2. MEMORY (optional)
+
+Expressions in linker scripts::
+define in .ld file and make and then check in .map
+
+syntax and spacing affects.
+
+Values:: - 
+Integers - negative , octal(0) , decimal, hex(0x)
+Suffixes like K - 10^3, M - 10^6
+
+
+MEMORY {
+    ROM : ORIGIN = 0xA000 , LENGTH = 0x1000
+    RAM : ORIGIN = 0xC000 , LENGTH = 0x1000
+}
+
+changed to 
+MEMORY {
+    ROM : ORIGIN = 0xA000 , LENGTH = 4k
+    RAM : ORIGIN = 0xC000 , LENGTH = 8k
+}
+also valid 
+
+Symbols Name :: in linker script ......
+Starts with 
+Letter, under
+
+spaces in name not allowed , quoted unquoted ..... 
+
+"SECTIONS" = 9; // valid
+SECTIONS = 9; /// not valid
 
 
 
+LOcation Counter :::---- (.)
+
+(.) is called location counter.
+
+EVALUATION::---
+
+
+Assignment : Defining Symbols ::--
 
 
 
+Placement of assignment Statements :::
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Relocatable and absolute type os symbols ::
 
 
 

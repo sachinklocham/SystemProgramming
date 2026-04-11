@@ -10,7 +10,7 @@ ELF Header:
   Version:                           0x1
   Entry point address:               0xa0a8
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          8884 (bytes into file)
+  Start of section headers:          8936 (bytes into file)
   Flags:                             0x5000200, Version5 EABI, soft-float ABI
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
@@ -27,9 +27,9 @@ Section Headers:
   [ 3] .rodata           PROGBITS        0000a108 001108 000008 00  WA  0   0  4
   [ 4] .data             PROGBITS        0000c000 002000 000008 00  WA  0   0  4
   [ 5] .bss              NOBITS          0000c008 002008 000004 00  WA  0   0  4
-  [ 6] .symtab           SYMTAB          00000000 002008 0001f0 10      7  18  4
-  [ 7] .strtab           STRTAB          00000000 0021f8 000080 00      0   0  1
-  [ 8] .shstrtab         STRTAB          00000000 002278 00003c 00      0   0  1
+  [ 6] .symtab           SYMTAB          00000000 002008 000220 10      7  18  4
+  [ 7] .strtab           STRTAB          00000000 002228 000084 00      0   0  1
+  [ 8] .shstrtab         STRTAB          00000000 0022ac 00003c 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
   L (link order), O (extra OS processing required), G (group), T (TLS),
@@ -56,7 +56,7 @@ There are no relocations in this file.
 
 There are no unwind sections in this file.
 
-Symbol table '.symtab' contains 31 entries:
+Symbol table '.symtab' contains 34 entries:
    Num:    Value  Size Type    Bind   Vis      Ndx Name
      0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
      1: 0000a000     0 SECTION LOCAL  DEFAULT    1 .sachin
@@ -79,15 +79,18 @@ Symbol table '.symtab' contains 31 entries:
     18: 0000a000   168 FUNC    GLOBAL DEFAULT    1 copy_data
     19: 0000c00c     0 NOTYPE  GLOBAL DEFAULT    5 _end_bss_
     20: 0000c008     0 NOTYPE  GLOBAL DEFAULT    4 _dst_end_data_
-    21: 0000c004     4 OBJECT  GLOBAL DEFAULT    4 b
-    22: 0000c008     0 NOTYPE  GLOBAL DEFAULT    5 _start_bss_
-    23: 0000a108     4 OBJECT  GLOBAL DEFAULT    3 c
-    24: 0000a0a8    68 FUNC    GLOBAL DEFAULT    2 foo
-    25: 0000a10c     4 OBJECT  GLOBAL DEFAULT    3 uninit_global
-    26: 0000c008     4 OBJECT  GLOBAL DEFAULT    5 a
-    27: 0000a110     0 NOTYPE  GLOBAL DEFAULT    3 _src_start_data_
-    28: 0000a0ec    28 FUNC    GLOBAL DEFAULT    2 bar
-    29: 0000c000     0 NOTYPE  GLOBAL DEFAULT    4 _dst_start_data_
-    30: 0000c000     4 OBJECT  GLOBAL DEFAULT    4 init_global
+    21: 00000014     4 OBJECT  GLOBAL DEFAULT  ABS b
+    22: 0000a0a8     0 NOTYPE  GLOBAL DEFAULT    2 f
+    23: 0000c008     0 NOTYPE  GLOBAL DEFAULT    5 _start_bss_
+    24: 0000a0c6     4 OBJECT  GLOBAL DEFAULT    2 c
+    25: 0000a09e     0 NOTYPE  GLOBAL DEFAULT    2 d
+    26: 0000a0a8    68 FUNC    GLOBAL DEFAULT    2 foo
+    27: 0000a10c     4 OBJECT  GLOBAL DEFAULT    3 uninit_global
+    28: 0000000a     4 OBJECT  GLOBAL DEFAULT  ABS a
+    29: 0000a110     0 NOTYPE  GLOBAL DEFAULT    3 _src_start_data_
+    30: 0000a170     0 NOTYPE  GLOBAL DEFAULT    2 e
+    31: 0000a0ec    28 FUNC    GLOBAL DEFAULT    2 bar
+    32: 0000c000     0 NOTYPE  GLOBAL DEFAULT    4 _dst_start_data_
+    33: 0000c000     4 OBJECT  GLOBAL DEFAULT    4 init_global
 
 No version information found in this file.

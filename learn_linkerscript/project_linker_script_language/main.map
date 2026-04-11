@@ -17,6 +17,8 @@ RAM              0x0000c000         0x00001000
 
 Linker script and memory map
 
+                0x0000000a                        a = 0xa
+                0x00000014                        b = 0x14
 
 .sachin         0x0000a000       0xa8
  *(.sachin)
@@ -29,11 +31,14 @@ Linker script and memory map
                 0x0000a0a8                foo
  .text          0x0000a0ec       0x1c global.o
                 0x0000a0ec                bar
+                0x0000a0c6                        c = (a + b)
+                0x0000a09e                        d = (a - b)
+                0x0000a170                        e = (a * b)
+                0x0000a0a8                        f = (a / b)
 
 .rodata         0x0000a108        0x8
  *(.rodata)
  .rodata        0x0000a108        0x4 global.o
-                0x0000a108                c
  *(.abc)
  .abc           0x0000a10c        0x4 main.o
                 0x0000a10c                uninit_global
@@ -45,7 +50,6 @@ Linker script and memory map
  .data          0x0000c000        0x4 main.o
                 0x0000c000                init_global
  .data          0x0000c004        0x4 global.o
-                0x0000c004                b
                 0x0000c008                        _dst_end_data_ = .
 
 .bss            0x0000c008        0x4
@@ -53,7 +57,6 @@ Linker script and memory map
  *(.bss)
  .bss           0x0000c008        0x0 main.o
  .bss           0x0000c008        0x4 global.o
-                0x0000c008                a
                 0x0000c00c                        _end_bss_ = .
 
 /DISCARD/

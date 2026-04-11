@@ -3,13 +3,18 @@ MEMORY {
     ROM : ORIGIN = 0xA000 , LENGTH = 0x1000
     RAM : ORIGIN = 0xC000 , LENGTH = 0x1000
 }
-
+a = 10;
 SECTIONS {
+    b = 20;
     .sachin : {
         * (.sachin)
     } > ROM AT > ROM
     .text : {
         * (.text)
+        c = a + b;
+        d = a - b;
+        e = a * b;
+        f = a / b;
     } > ROM AT > ROM
     .rodata : {
         * (.rodata)
